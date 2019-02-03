@@ -1,14 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-html,body {
-  //height: 100%;
-  margin: 0;
-  //overflow: hidden;
-  //position: relative;
-  //font-family: Roboto;
-}
+@import '~@angular/material/theming';
+@import "variables";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+//@mixin mat-icon-theme($theme) {
+//  $primary: map-get($theme, primary);
+//  $accent: map-get($theme, accent);
+//  $warn: map-get($theme, warn);
+//  $background: map-get($theme, background);
+//  $foreground: map-get($theme, foreground);
 //
-//.toolbar-spacer {
-//  flex: 1 1 auto;
+//  .mat-icon {
+//    color: mat-color($foreground, 'icon');
+//    &.mat-primary {
+//      color: mat-color($primary);
+//    }
+//
+//    &.mat-accent {
+//      color: mat-color($accent);
+//    }
+//
+//    &.mat-warn {
+//      color: mat-color($warn);
+//    }
+//  }
 //}
-//html,body{margin:0;padding:0;}
+
+@include angular-material-theme($lostit-theme);
+
+body {
+  margin: 0;
+  overflow: hidden;
+}

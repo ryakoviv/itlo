@@ -1,0 +1,8 @@
+{
+  "/v1": {
+    "target": "http://lostit.api.test:88",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel" : "debug"
+  }
+}

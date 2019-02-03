@@ -1,3 +1,20 @@
-<p>
-  sign-in works!
-</p>
+<form (submit)="submit($event)">
+  <mat-form-field appearance="legacy">
+    <mat-label>Login</mat-label>
+    <input matInput type="email" placeholder="" [formControl]="email" required>
+    <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+    <mat-icon matPrefix>person</mat-icon>
+  </mat-form-field>
+  <mat-form-field appearance="legacy">
+    <mat-label>Password</mat-label>
+    <input matInput type="password" placeholder="" [formControl]="password" required>
+    <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+    <mat-icon matPrefix>lock</mat-icon>
+  </mat-form-field>
+  <mat-error *ngIf="invalidCredentials">Incorrect email or password</mat-error>
+  <button mat-raised-button color="primary">Login</button>
+</form>
+<div class="links">
+  <div class="sign-up">Немає акаунта? <a routerLink="/guest/sign-up">Sign Up</a></div>
+  <div class="forgot-password"><a routerLink="/guest/forgot">Забули пароль?</a></div>
+</div>

@@ -1,3 +1,31 @@
+@import '~@angular/material/theming';
+@import "~@angular/../../src/variables";
+
 .layout {
-  background-color: red;
+  height: 100vh;
+  text-align: center;
+  .mat-card {
+    max-width: 290px;
+    width: 100%;
+    padding: 55px;
+    display: inline-block;
+    text-align: left;
+    margin-top: 70px;
+    .logo {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .slogan {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .layout {
+    .mat-card {
+      padding: 10px;
+    }
+  }
 }
