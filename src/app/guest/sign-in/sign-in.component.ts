@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../core/auth.service';
 import {Router} from '@angular/router';
 
@@ -10,14 +10,13 @@ import {Router} from '@angular/router';
 })
 export class SignInComponent implements OnInit {
 
-  // email = new FormControl(null,
-  //   {
-  //   validators: [Validators.required, Validators.email],
-  //   updateOn: 'submit'
-  // });
-  email = new FormControl('', [Validators.required, Validators.email]);
-  password = new FormControl('', [Validators.required]);
-  invalidCredentials = false;
+  form = new FormGroup({
+    'email': new FormControl('', [
+      Validators.required,
+      Validators.email,
+    ]),
+    'password': new FormControl('', [Validators.required]),
+  });
 
   constructor(private auth: AuthService, private router: Router) { }
 
@@ -27,6 +26,18 @@ export class SignInComponent implements OnInit {
     }
   }
 
+  setInvalidCredentials() {
+    this.form.setErrors({invalidCredentialsError: true});
+  }
+
+  setServerUnknownError() {
+    this.form.setErrors({serverUnknownError: true});
+  }
+
+  get email() { return this.form.get('email'); }
+
+  get password() { return this.form.get('password'); }
+
   getEmailErrorMessage() {
     return this.email.hasError('required') ? 'Email cannot be blank' :
       this.email.hasError('email') ? 'Please enter a valid email address' : '';
@@ -34,6 +45,11 @@ export class SignInComponent implements OnInit {
 
   getPasswordErrorMessage() {
     return this.password.hasError('required') ? 'Password cannot be blank' : '';
+  }
+
+  getFormErrorMessage() {
+    return this.form.hasError('invalidCredentialsError') ? 'Incorrect email or password' :
+      this.form.hasError('serverUnknownError') ? 'Ops, something wend wrong' : '';
   }
 
   goToDashboardPage() {
@@ -45,7 +61,14 @@ export class SignInComponent implements OnInit {
     if (this.email.valid && this.password.valid) {
       this.auth.login(this.email.value, this.password.value).subscribe(data => {
         this.goToDashboardPage();
-      }, error => { this.invalidCredentials = true; });
+      }, error => {
+        if (error.status === 404) {
+          this.setInvalidCredentials();
+        } else {
+          this.setServerUnknownError();
+        }
+
+      });
     }
   }
 
