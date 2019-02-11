@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren: './guest/guest.module#GuestModule'
   },
   {
+    path: 'user',
+    loadChildren: './user/user.module#UserModule'
+  },
+  {
     path: '**',
     component: NotFoundComponent
   }

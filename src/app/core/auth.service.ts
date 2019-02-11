@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from './user.interface';
+import { share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,15 @@ export class AuthService {
     // const headers = new HttpHeaders(
     //   {'Content-Type': 'application/x-www-form-urlencoded'}
     // );
-    const observer = this.http.post<User>('/v1/user/login', {email, password});
+    const observer = this.http.post<User>('/v1/user/login', {email, password}).pipe(share());
+    observer.subscribe(data => this.setCurUser(data, true));
+    return observer;
+    // {headers: {}}
+  }
+
+  create(username: string, email: string, password: string) {
+
+    const observer = this.http.post<User>('/v1/user', {username, email, password}).pipe(share());
     observer.subscribe(data => this.setCurUser(data, true));
     return observer;
     // {headers: {}}
