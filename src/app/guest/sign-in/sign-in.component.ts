@@ -53,7 +53,7 @@ export class SignInComponent implements OnInit {
   }
 
   goToDashboardPage() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['user/account']);
   }
 
   submit(e) {

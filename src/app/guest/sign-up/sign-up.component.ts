@@ -102,7 +102,7 @@ export class SignUpComponent implements OnInit {
   }
 
   goToDashboardPage() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['user/account']);
   }
 
   submit(e) {

@@ -1,0 +1,23 @@
+<div class="container">
+  <mat-toolbar color="primary" class="mat-elevation-z6 nav-toolbar">
+    <button mat-icon-button (click)="lefSide.toggle()"><mat-icon>menu</mat-icon></button>
+    <h1 class="logo">Lostit</h1>
+    <a routerLink="/user/search" mat-button>Search</a>
+    <a routerLink="/user/lost" mat-button>My lost staff</a>
+    <a routerLink="/user/found" mat-button>My found staff</a>
+    <span class="toolbar-spacer"></span>
+    <button mat-button><mat-icon>account_circle</mat-icon> User</button>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="main-sidenav-container">
+    <mat-sidenav #lefSide mode="side">Start content</mat-sidenav>
+    <mat-sidenav #rightSide mode="side" position="end">End content</mat-sidenav>
+
+    <mat-sidenav-content role="main">
+        <mat-card class="content-card">
+          <ng-content></ng-content>
+        </mat-card>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
