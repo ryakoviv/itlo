@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Thing} from '../../core/interfaces/thing.interface';
+import {ThingsService} from '../../core/services/things.service';
 
 @Component({
   selector: 'app-lost',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LostComponent implements OnInit {
 
-  constructor() { }
+  things: Thing[];
+  constructor(private thingsService: ThingsService) { }
 
   ngOnInit() {
+    const test = this.thingsService.getLostByUser();
+    test.subscribe(res => this.things = res);
   }
 
 }

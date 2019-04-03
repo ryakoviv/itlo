@@ -1,8 +1,5 @@
-<mat-toolbar>
-  <span>Search</span>
-</mat-toolbar>
+<app-content-header title="Search"></app-content-header>
 <mat-divider></mat-divider>
 <div *ngFor="let thing of things">
-
-  <span>{{thing.name}}</span>
+  <app-thing [thing]="thing"></app-thing>
 </div>

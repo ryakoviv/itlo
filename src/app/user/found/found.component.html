@@ -1,3 +1,5 @@
-<p>
-  found works!
-</p>
+<app-content-header title="My found thing"></app-content-header>
+<mat-divider></mat-divider>
+<div *ngFor="let thing of things">
+  <app-thing [thing]="thing"></app-thing>
+</div>

@@ -9,6 +9,6 @@ import { MaterialModule} from '../../shared/material/material.module';
     CommonModule,
     MaterialModule
   ],
-  exports: [LayoutComponent]
+  exports: [LayoutComponent, MaterialModule]
 })
-export class ShareModule { }
+export class SharedModule { }
