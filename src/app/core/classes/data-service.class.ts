@@ -5,7 +5,7 @@ import {AuthService} from '../auth.service';
 
 export class DataService {
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(protected http: HttpClient, protected auth: AuthService) {}
 
   private createSortParameter(sortBy: string, sortDirection: string) {
     if (sortDirection && sortBy) {

@@ -1,0 +1,35 @@
+<app-content-header title="Register found think"></app-content-header>
+<mat-divider></mat-divider>
+<form (submit)="submit($event)">
+  <mat-form-field appearance="legacy">
+    <input matInput type="text" placeholder="Name" [formControl]="name" required>
+    <mat-error *ngIf="name.invalid">{{getNameErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Description" [formControl]="description"></textarea>
+    <mat-error *ngIf="description.invalid">{{getDescriptionErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date" [formControl]="date" required>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="date.invalid">{{getDateErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="legacy">
+    <input placeholder="Address" matInput appGooglePlaces [formControl]="addressText" (addressChanged)="handleAddressChange($event)" required>
+    <mat-error *ngIf="addressText.invalid">{{getAddressTextErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <agm-map #map [latitude]="lat" [longitude]="lng">
+    <agm-circle
+      #mapCircle
+      [latitude]="lat"
+      [longitude]="lng"
+      [radius]="radius"
+      [editable]="true"
+      [circleDraggable]="true"
+      (centerChange)="handleMapCicleChange()"
+      (radiusChange)="handleMapCicleChange()"
+    ></agm-circle>
+  </agm-map>
+  <button mat-raised-button color="primary">Register</button>
+</form>

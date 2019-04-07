@@ -5,6 +5,7 @@ import {DataFilterParam} from '../classes/data-filter-param.class';
 import {AuthService} from '../auth.service';
 import {Thing} from '../interfaces/thing.interface';
 import {DataService} from '../classes/data-service.class';
+import {share} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -53,5 +54,17 @@ export class ThingsService extends DataService {
     filters: DataFilterParam[] = []
   ): Observable<Thing[]> {
     return this.getData('/v1/thing/lost', pageNumber, pageSize, sortBy, sortDirection, filters);
+  }
+
+  createFound(name, description, date, addressText, addressCenterLat, addressCenterLng, addressRadius) {
+    return this.http.post<any>(
+      '/v1/thing/found',
+      {name, description, date, addressText, addressCenterLat, addressCenterLng, addressRadius});
+  }
+
+  createLost(name, description, date, addressText, addressCenterLat, addressCenterLng, addressRadius) {
+    return this.http.post<any>(
+      '/v1/thing/found',
+      {name, description, date, addressText, addressCenterLat, addressCenterLng, addressRadius});
   }
 }

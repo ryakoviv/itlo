@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountComponent implements OnInit {
 
-  constructor() { }
+  lat: number = 51.678418;
+  lng: number = 7.809007;
 
   ngOnInit() {
+  }
+
+  public handleAddressChange(address) {
+    console.log(address);
+    if (address.geometry) {
+      this.lat = address.geometry.location.lat();
+      this.lng = address.geometry.location.lng();
+    }
   }
 
 }

@@ -5,6 +5,7 @@ import {AccountComponent} from './account/account.component';
 import {SearchComponent} from './search/search.component';
 import {LostComponent} from './lost/lost.component';
 import {FoundComponent} from './found/found.component';
+import {CreateFoundComponent} from './create-found/create-found.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,13 @@ const routes: Routes = [
     component: UserComponent,
     children: [
       { path: '', component: FoundComponent }
+    ]
+  },
+  {
+    path: 'found-create',
+    component: UserComponent,
+    children: [
+      { path: '', component: CreateFoundComponent }
     ]
   }
 ];
