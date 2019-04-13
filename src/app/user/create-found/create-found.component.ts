@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AgmCircle, AgmMap} from '@agm/core';
 import {ThingsService} from '../../core/services/things.service';
+import {LatLngLiteral} from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'app-create-found',
@@ -20,19 +21,19 @@ export class CreateFoundComponent implements OnInit {
       Validators.required
     ]),
     'description': new FormControl(''),
-    'date': new FormControl(new Date(), [
+    'happened_at': new FormControl(new Date(), [
       Validators.required
     ]),
-    'addressText': new FormControl('', [
+    'location_text': new FormControl('', [
       Validators.required
     ]),
-    'addressCenterLat': new FormControl('', [
+    'location_center_lat': new FormControl('', [
       Validators.required
     ]),
-    'addressCenterLng': new FormControl('', [
+    'location_center_lng': new FormControl('', [
       Validators.required
     ]),
-    'addressRadius': new FormControl('', [
+    'location_radius': new FormControl(this.radius, [
       Validators.required
     ]),
   });
@@ -40,11 +41,11 @@ export class CreateFoundComponent implements OnInit {
 
   get name() { return this.form.get('name'); }
   get description() { return this.form.get('description'); }
-  get date() { return this.form.get('date'); }
-  get addressText() { return this.form.get('addressText'); }
-  get addressCenterLat() { return this.form.get('addressCenterLat'); }
-  get addressCenterLng() { return this.form.get('addressCenterLng'); }
-  get addressRadius() { return this.form.get('addressRadius'); }
+  get happened_at() { return this.form.get('happened_at'); }
+  get location_text() { return this.form.get('location_text'); }
+  get location_center_lat() { return this.form.get('location_center_lat'); }
+  get location_center_lng() { return this.form.get('location_center_lng'); }
+  get location_radius() { return this.form.get('location_radius'); }
 
   constructor(private thingsService: ThingsService) { }
 
@@ -59,16 +60,16 @@ export class CreateFoundComponent implements OnInit {
     return '';
   }
 
-  getDateErrorMessage() {
-    return this.date.hasError('required') ? 'Date cannot be blank' : '';
+  getHappenedAtErrorMessage() {
+    return this.happened_at.hasError('required') ? 'Date cannot be blank' : '';
   }
 
-  getAddressTextErrorMessage() {
-    return this.addressText.hasError('required') ? 'Address cannot be blank' : '';
+  getLocationTextErrorMessage() {
+    return this.location_text.hasError('required') ? 'Address cannot be blank' : '';
   }
 
   public handleAddressChange(address) {
-    console.log(address);
+    this.location_text.setValue(address.formatted_address);
     if (address.geometry) {
       this.lat = address.geometry.location.lat();
       this.lng = address.geometry.location.lng();
@@ -76,23 +77,27 @@ export class CreateFoundComponent implements OnInit {
     }
   }
 
-  public handleMapCicleChange() {
-    this.addressCenterLat.setValue(this.mapCircle.latitude);
-    this.addressCenterLng.setValue(this.mapCircle.longitude);
-    this.addressRadius.setValue(this.mapCircle.radius);
+  public handleMapCircleCenterChange(p: LatLngLiteral) {
+    this.location_center_lat.setValue(p.lat);
+    this.location_center_lng.setValue(p.lng);
+  }
+
+  public handleMapCircleRadiusChange(radius: number) {
+    this.location_radius.setValue(radius);
   }
 
   submit(e) {
     e.preventDefault();
     if (this.form.valid) {
+      const happenedAtUnix = Math.round(this.happened_at.value.getTime() / 1000);
       this.thingsService.createFound(
         this.name.value,
         this.description.value,
-        this.date.value,
-        this.addressText.value,
-        this.addressCenterLat.value,
-        this.addressCenterLng.value,
-        this.addressRadius.value,
+        happenedAtUnix,
+        this.location_text.value,
+        this.location_center_lat.value,
+        this.location_center_lng.value,
+        this.location_radius.value,
       ).subscribe(data => {
         console.log('success');
       }, error => {

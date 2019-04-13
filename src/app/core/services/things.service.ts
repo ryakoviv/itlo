@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DataFilterParam} from '../classes/data-filter-param.class';
 import {AuthService} from '../auth.service';
@@ -56,15 +56,27 @@ export class ThingsService extends DataService {
     return this.getData('/v1/thing/lost', pageNumber, pageSize, sortBy, sortDirection, filters);
   }
 
-  createFound(name, description, date, addressText, addressCenterLat, addressCenterLng, addressRadius) {
+  createFound(name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius) {
     return this.http.post<any>(
       '/v1/thing/found',
-      {name, description, date, addressText, addressCenterLat, addressCenterLng, addressRadius});
+      {name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius},
+      {
+        headers: new HttpHeaders(
+          {'http_authorization': this.auth.getAuth()}
+        ),
+      }
+    );
   }
 
-  createLost(name, description, date, addressText, addressCenterLat, addressCenterLng, addressRadius) {
+  createLost(name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius) {
     return this.http.post<any>(
-      '/v1/thing/found',
-      {name, description, date, addressText, addressCenterLat, addressCenterLng, addressRadius});
+      '/v1/thing/lost',
+      {name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius},
+      {
+        headers: new HttpHeaders(
+          {'http_authorization': this.auth.getAuth()}
+        ),
+      }
+    );
   }
 }
