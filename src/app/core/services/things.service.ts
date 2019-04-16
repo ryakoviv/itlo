@@ -56,10 +56,21 @@ export class ThingsService extends DataService {
     return this.getData('/v1/thing/lost', pageNumber, pageSize, sortBy, sortDirection, filters);
   }
 
-  createFound(name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius) {
+  createFound(name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius, imageFile = null) {
+    const fd = new FormData();
+    fd.append('name', name);
+    fd.append('description', description);
+    fd.append('happened_at', happened_at);
+    fd.append('location_text', location_text);
+    fd.append('location_center_lat', location_center_lat);
+    fd.append('location_center_lng', location_center_lng);
+    fd.append('location_radius', location_radius);
+    if (imageFile) {
+      fd.append('imageFile', imageFile, imageFile.name);
+    }
     return this.http.post<any>(
       '/v1/thing/found',
-      {name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius},
+      fd,
       {
         headers: new HttpHeaders(
           {'http_authorization': this.auth.getAuth()}
@@ -68,10 +79,21 @@ export class ThingsService extends DataService {
     );
   }
 
-  createLost(name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius) {
+  createLost(name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius, imageFile = null) {
+    const fd = new FormData();
+    fd.append('name', name);
+    fd.append('description', description);
+    fd.append('happened_at', happened_at);
+    fd.append('location_text', location_text);
+    fd.append('location_center_lat', location_center_lat);
+    fd.append('location_center_lng', location_center_lng);
+    fd.append('location_radius', location_radius);
+    if (imageFile) {
+      fd.append('imageFile', imageFile, imageFile.name);
+    }
     return this.http.post<any>(
       '/v1/thing/lost',
-      {name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius},
+      fd,
       {
         headers: new HttpHeaders(
           {'http_authorization': this.auth.getAuth()}

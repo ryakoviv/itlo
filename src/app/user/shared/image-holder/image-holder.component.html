@@ -1,0 +1,4 @@
+<label [ngClass]="{'selectable': isSelectable}" >
+  <img [src]="imageSrc">
+  <input *ngIf="isSelectable" type='file' hidden (change)="onSelectFile($event)">
+</label>

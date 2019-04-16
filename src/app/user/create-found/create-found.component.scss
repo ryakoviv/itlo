@@ -1,8 +1,34 @@
 form {
+  padding-top: 16px;
   display: flex;
   flex-direction: column;
 }
 
 agm-map {
   height: 300px;
+}
+
+app-image-holder {
+  height: 196px;
+  width: 100%;
+}
+
+.top-block {
+  display: flex;
+  .left-block {
+    max-width: 50%;
+    display: flex;
+    width: 40%;
+    flex-shrink: 0;
+  }
+  .right-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 16px;
+  }
+}
+.bottom-block {
+  display: flex;
+  flex-direction: column;
 }

@@ -36,6 +36,7 @@ export class CreateFoundComponent implements OnInit {
     'location_radius': new FormControl(this.radius, [
       Validators.required
     ]),
+    'imageFile': new FormControl(),
   });
   maxDate = new Date();
 
@@ -46,6 +47,7 @@ export class CreateFoundComponent implements OnInit {
   get location_center_lat() { return this.form.get('location_center_lat'); }
   get location_center_lng() { return this.form.get('location_center_lng'); }
   get location_radius() { return this.form.get('location_radius'); }
+  get imageFile() { return this.form.get('imageFile'); }
 
   constructor(private thingsService: ThingsService) { }
 
@@ -77,12 +79,12 @@ export class CreateFoundComponent implements OnInit {
     }
   }
 
-  public handleMapCircleCenterChange(p: LatLngLiteral) {
+  handleMapCircleCenterChange(p: LatLngLiteral) {
     this.location_center_lat.setValue(p.lat);
     this.location_center_lng.setValue(p.lng);
   }
 
-  public handleMapCircleRadiusChange(radius: number) {
+  handleMapCircleRadiusChange(radius: number) {
     this.location_radius.setValue(radius);
   }
 
@@ -98,6 +100,7 @@ export class CreateFoundComponent implements OnInit {
         this.location_center_lat.value,
         this.location_center_lng.value,
         this.location_radius.value,
+        this.imageFile.value,
       ).subscribe(data => {
         console.log('success');
       }, error => {
