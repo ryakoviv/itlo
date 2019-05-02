@@ -9,13 +9,16 @@ import {FormControl} from '@angular/forms';
 export class ImageHolderComponent implements OnInit {
 
   @Input() imageFormControl: FormControl;
-  @Input() imageSrc = './assets/images/default-thumbnail.jpg';
+  @Input() imageSrc: string;
 
   constructor() { }
 
   ngOnInit() {
     if (this.isSelectable && this.imageFormControl.value) {
       this.imageSrc = this.imageFormControl.value;
+    }
+    if (!this.imageSrc) {
+      this.imageSrc = './assets/images/default-thumbnail.jpg';
     }
   }
 

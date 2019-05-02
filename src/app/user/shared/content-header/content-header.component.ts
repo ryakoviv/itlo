@@ -6,7 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./content-header.component.scss']
 })
 export class ContentHeaderComponent implements OnInit {
-  @Input() title: string;
+  @Input() header: string;
+  @Input() navItems: any[] = [];
   constructor() { }
 
   ngOnInit() {

@@ -25,10 +25,12 @@ export class DataService {
     sortDirection: string = '',
     filters: DataFilterParam[]
   ) {
-    const httpParams = new HttpParams().set('page', pageNumber.toString())
+    let httpParams = new HttpParams().set('page', pageNumber.toString())
       .set('per-page', pageSize.toString())
       .set('sort', this.createSortParameter(sortBy, sortDirection));
-    filters.forEach(el => httpParams.set(el.name, el.value));
+    filters.forEach((el) => {
+      httpParams = httpParams.set(el.name, el.value);
+    });
 
     return httpParams;
   }

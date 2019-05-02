@@ -26,6 +26,26 @@ export class ThingsService extends DataService {
     return this.getData('/v1/thing/public', pageNumber, pageSize, sortBy, sortDirection, filters);
   }
 
+  getAllLost(
+    pageNumber: number = 1,
+    pageSize: number = 20,
+    sortBy: string = '',
+    sortDirection: string = '',
+    filters: DataFilterParam[] = []
+  ): Observable<Thing[]> {
+    return this.getData('/v1/thing/lost/public', pageNumber, pageSize, sortBy, sortDirection, filters);
+  }
+
+  getAllFound(
+    pageNumber: number = 1,
+    pageSize: number = 20,
+    sortBy: string = '',
+    sortDirection: string = '',
+    filters: DataFilterParam[] = []
+  ): Observable<Thing[]> {
+    return this.getData('/v1/thing/found/public', pageNumber, pageSize, sortBy, sortDirection, filters);
+  }
+
   getAllForUser(
     pageNumber: number = 1,
     pageSize: number = 20,

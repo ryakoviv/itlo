@@ -2,7 +2,8 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {UserComponent} from './user.component';
 import {AccountComponent} from './account/account.component';
-import {SearchComponent} from './search/search.component';
+import {SearchLostComponent} from './search-lost/search-lost.component';
+import {SearchFoundComponent} from './search-found/search-found.component';
 import {LostComponent} from './lost/lost.component';
 import {FoundComponent} from './found/found.component';
 import {CreateFoundComponent} from './create-found/create-found.component';
@@ -22,10 +23,17 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'search',
+    path: 'search-lost',
     component: UserComponent,
     children: [
-      { path: '', component: SearchComponent }
+      { path: '', component: SearchLostComponent }
+    ]
+  },
+  {
+    path: 'search-found',
+    component: UserComponent,
+    children: [
+      { path: '', component: SearchFoundComponent }
     ]
   },
   {

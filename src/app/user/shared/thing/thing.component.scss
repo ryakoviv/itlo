@@ -1,0 +1,29 @@
+.thing {
+  padding: 10px;
+  display: flex;
+  min-height: 175px;
+  .left-block {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    .author {
+      margin-bottom: 5px;
+    }
+    app-image-holder {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .right-block {
+    width: 100%;
+    margin-left: 10px;
+    .name {
+      text-align: center;
+      margin: 0;
+    }
+    .date, .location {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

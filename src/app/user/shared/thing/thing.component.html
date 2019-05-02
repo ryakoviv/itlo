@@ -1,3 +1,21 @@
-<p>
-  {{thing.name}}
-</p>
+<div class="thing">
+  <div class="left-block">
+    <div class="author">
+      {{thing.opener?.username}}
+    </div>
+    <app-image-holder [imageSrc]="thing.image?.src"></app-image-holder>
+  </div>
+  <div class="right-block">
+    <h3 class="name">{{thing.name}}</h3>
+    <div class="date">
+      <mat-icon>event</mat-icon> {{thing.happened_at* 1000 | date}}
+    </div>
+    <div class="location">
+      <mat-icon>place</mat-icon> {{thing.location_text}}
+    </div>
+    <div class="description">
+      {{thing.description}}
+    </div>
+  </div>
+</div>
+

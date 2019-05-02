@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material';
+import {MatMenuModule} from '@angular/material/menu';
 
 const modules = [
   MatGridListModule,
@@ -22,7 +23,8 @@ const modules = [
   MatToolbarModule,
   MatDividerModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatMenuModule
 ];
 
 @NgModule({

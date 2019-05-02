@@ -2,8 +2,12 @@
   cursor: pointer;
 }
 
-img {
-  max-height: 100%;
-  max-width: 100%;
+label {
+  display: block;
+  height: 100%;
+  width: 100%;
   border-radius: 9px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
