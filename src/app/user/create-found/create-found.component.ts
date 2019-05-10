@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AgmCircle, AgmMap} from '@agm/core';
 import {ThingsService} from '../../core/services/things.service';
 import {LatLngLiteral} from '@agm/core/services/google-maps-types';
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-create-found',
@@ -49,9 +50,12 @@ export class CreateFoundComponent implements OnInit {
   get location_radius() { return this.form.get('location_radius'); }
   get imageFile() { return this.form.get('imageFile'); }
 
-  constructor(private thingsService: ThingsService) { }
+  constructor(private thingsService: ThingsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route
+      .data
+      .subscribe(v => console.log(v));
   }
 
   getNameErrorMessage() {
@@ -102,7 +106,7 @@ export class CreateFoundComponent implements OnInit {
         this.location_radius.value,
         this.imageFile.value,
       ).subscribe(data => {
-        console.log('success');
+        this.router.navigate(['user/thing-details', data.id]);
       }, error => {
         if (error.status === 404) {
           console.log('status 404');

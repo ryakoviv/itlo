@@ -1,0 +1,29 @@
+<app-content-header [header]="thing?.name"></app-content-header>
+<mat-divider></mat-divider>
+<div class="top-block">
+  <div class="left-block">
+    <app-image-holder [imageSrc]="thing?.image?.src"></app-image-holder>
+  </div>
+  <div class="right-block">
+      <div>{{thing?.name}}</div>
+      <div>{{thing?.description}}</div>
+      <div>{{thing?.happened_at* 1000 | date}}</div>
+  </div>
+</div>
+<div class="bottom-block">
+    <div>{{thing?.location_text}}</div>
+  <agm-map
+    *ngIf="thing"
+    [latitude]="thing?.location_center_lat"
+    [longitude]="thing?.location_center_lng"
+  >
+    <agm-circle
+      *ngIf="thing"
+      [latitude]="thing?.location_center_lat"
+      [longitude]="thing?.location_center_lng"
+      [radius]="thing?.location_radius"
+      [editable]="false"
+      [circleDraggable]="false"
+    ></agm-circle>
+  </agm-map>
+</div>

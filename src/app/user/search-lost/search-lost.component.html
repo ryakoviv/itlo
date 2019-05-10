@@ -1,7 +1,7 @@
 <app-content-header header="Search lost" [navItems]="navItems"></app-content-header>
 <mat-divider></mat-divider>
 <mat-form-field appearance="legacy">
-  <input #name placeholder="Name" matInput>
+  <input #name [value]="thingName" placeholder="Name" matInput>
 </mat-form-field>
 <mat-form-field appearance="legacy">
   <input placeholder="Address" matInput appGooglePlaces (addressChanged)="handleAddressChange($event)">

@@ -76,6 +76,19 @@ export class ThingsService extends DataService {
     return this.getData('/v1/thing/lost', pageNumber, pageSize, sortBy, sortDirection, filters);
   }
 
+  getThing(
+    id: number,
+  ): Observable<Thing> {
+    return this.http.get<any>(
+      '/v1/thing/' + id,
+      {
+        headers: new HttpHeaders(
+          {'http_authorization': this.auth.getAuth()}
+        ),
+      }
+    );
+  }
+
   createFound(name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius, imageFile = null) {
     const fd = new FormData();
     fd.append('name', name);

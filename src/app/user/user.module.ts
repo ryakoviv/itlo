@@ -10,10 +10,18 @@ import { LostComponent } from './lost/lost.component';
 import { FoundComponent } from './found/found.component';
 import { CreateFoundComponent } from './create-found/create-found.component';
 import { SearchFoundComponent } from './search-found/search-found.component';
+import { ThingDetailsComponent } from './thing-details/thing-details.component';
 
 @NgModule({
   declarations: [
-    UserComponent, AccountComponent, SearchLostComponent, LostComponent, FoundComponent, CreateFoundComponent, SearchFoundComponent
+    UserComponent,
+    AccountComponent,
+    SearchLostComponent,
+    LostComponent,
+    FoundComponent,
+    CreateFoundComponent,
+    SearchFoundComponent,
+    ThingDetailsComponent
   ],
   imports: [
     CommonModule,

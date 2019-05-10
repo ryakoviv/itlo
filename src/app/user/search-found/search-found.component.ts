@@ -4,6 +4,8 @@ import {AgmCircle, AgmMap} from '@agm/core';
 import {Thing} from '../../core/interfaces/thing.interface';
 import {ThingsService} from '../../core/services/things.service';
 import {DataFilterParam} from '../../core/classes/data-filter-param.class';
+import {Router, ActivatedRoute} from '@angular/router';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-found',
@@ -16,28 +18,55 @@ export class SearchFoundComponent implements OnInit {
   @ViewChild('name') name: ElementRef;
   navItems = [
     {link: '/user/lost-create', text: 'Create lost'},
-    {link: '/user/lost-create', text: 'test1'},
-    {link: '/user/lost-create', text: 'test2'},
+    {link: '/user/found-create', text: 'Create found'},
   ];
 
-  lat = 51.678418;
-  lng = 7.809007;
-  radius = 10000;
+  thingName: string;
+  lat: number;
+  lng: number;
+  radius: number;
   things: Thing[];
 
   location_center_lat: number;
   location_center_lng: number;
   location_radius: number;
-  constructor(private thingsService: ThingsService) { }
+  constructor(private thingsService: ThingsService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.initDataFromQueryParams();
     this.location_center_lat = this.lat;
     this.location_center_lng = this.lng;
     this.location_radius = this.radius;
     this.search();
   }
 
-  public handleAddressChange(address) {
+  private initDataFromQueryParams() {
+    this.activatedRoute.queryParams.pipe(first()).subscribe(params => {
+      this.lat = +params.location_center_lat || 51.678418;
+      this.lng = +params.location_center_lng || 7.809007;
+      this.radius = +params.location_radius || 10000;
+      this.thingName = params.name || '';
+    });
+  }
+
+  private saveDataInQueryParams() {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: {
+          name: this.name.nativeElement.value,
+          location_center_lat: this.location_center_lat,
+          location_center_lng: this.location_center_lng,
+          location_radius: this.location_radius
+        },
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+        replaceUrl: true
+      }
+    );
+  }
+
+  handleAddressChange(address) {
     if (address.geometry) {
       this.lat = address.geometry.location.lat();
       this.lng = address.geometry.location.lng();
@@ -55,7 +84,7 @@ export class SearchFoundComponent implements OnInit {
   }
 
   search() {
-    const test = this.thingsService.getAllFound(
+    this.thingsService.getAllFound(
       1,
       20,
       '',
@@ -66,7 +95,8 @@ export class SearchFoundComponent implements OnInit {
         new DataFilterParam('location_center_lng', this.location_center_lng),
         new DataFilterParam('location_radius', this.location_radius),
       ]
-    );
-    test.subscribe(res => this.things = res);
+    ).subscribe(res => this.things = res);
+
+    this.saveDataInQueryParams();
   }
 }

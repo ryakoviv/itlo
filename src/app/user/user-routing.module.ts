@@ -7,6 +7,7 @@ import {SearchFoundComponent} from './search-found/search-found.component';
 import {LostComponent} from './lost/lost.component';
 import {FoundComponent} from './found/found.component';
 import {CreateFoundComponent} from './create-found/create-found.component';
+import {ThingDetailsComponent} from './thing-details/thing-details.component';
 
 
 const routes: Routes = [
@@ -54,7 +55,14 @@ const routes: Routes = [
     path: 'found-create',
     component: UserComponent,
     children: [
-      { path: '', component: CreateFoundComponent }
+      { path: '', component: CreateFoundComponent, data : {some_data : 'some value'}}
+    ]
+  },
+  {
+    path: 'thing-details/:id',
+    component: UserComponent,
+    children: [
+      { path: '', component: ThingDetailsComponent }
     ]
   }
 ];
