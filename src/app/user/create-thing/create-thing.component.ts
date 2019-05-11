@@ -6,11 +6,14 @@ import {LatLngLiteral} from '@agm/core/services/google-maps-types';
 import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-create-found',
-  templateUrl: './create-found.component.html',
-  styleUrls: ['./create-found.component.scss']
+  selector: 'app-create-thing',
+  templateUrl: './create-thing.component.html',
+  styleUrls: ['./create-thing.component.scss']
 })
-export class CreateFoundComponent implements OnInit {
+export class CreateThingComponent implements OnInit {
+  static TYPE_LOST = 'lost';
+  static TYPE_FOUNT = 'found';
+  type: string;
   @ViewChild(AgmMap) map: AgmMap;
   @ViewChild(AgmCircle) mapCircle: AgmCircle;
   lat: number = 51.678418;
@@ -55,7 +58,16 @@ export class CreateFoundComponent implements OnInit {
   ngOnInit() {
     this.route
       .data
-      .subscribe(v => console.log(v));
+      .subscribe(data => this.type = data.type);
+  }
+
+  getPageHeader() {
+    switch (this.type) {
+      case CreateThingComponent.TYPE_FOUNT:
+        return 'Register found thing';
+      case CreateThingComponent.TYPE_LOST:
+        return 'Register lost thing';
+    }
   }
 
   getNameErrorMessage() {
@@ -72,6 +84,15 @@ export class CreateFoundComponent implements OnInit {
 
   getLocationTextErrorMessage() {
     return this.location_text.hasError('required') ? 'Address cannot be blank' : '';
+  }
+
+  getCreateMethodName() {
+    switch (this.type) {
+      case CreateThingComponent.TYPE_FOUNT:
+        return 'createFound';
+      case CreateThingComponent.TYPE_LOST:
+        return 'createLost';
+    }
   }
 
   public handleAddressChange(address) {
@@ -96,7 +117,7 @@ export class CreateFoundComponent implements OnInit {
     e.preventDefault();
     if (this.form.valid) {
       const happenedAtUnix = Math.round(this.happened_at.value.getTime() / 1000);
-      this.thingsService.createFound(
+      this.thingsService[this.getCreateMethodName()](
         this.name.value,
         this.description.value,
         happenedAtUnix,

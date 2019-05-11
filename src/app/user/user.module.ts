@@ -8,7 +8,7 @@ import {SharedModule} from './shared/shared.module';
 import { SearchLostComponent } from './search-lost/search-lost.component';
 import { LostComponent } from './lost/lost.component';
 import { FoundComponent } from './found/found.component';
-import { CreateFoundComponent } from './create-found/create-found.component';
+import { CreateThingComponent } from './create-thing/create-thing.component';
 import { SearchFoundComponent } from './search-found/search-found.component';
 import { ThingDetailsComponent } from './thing-details/thing-details.component';
 
@@ -19,7 +19,7 @@ import { ThingDetailsComponent } from './thing-details/thing-details.component';
     SearchLostComponent,
     LostComponent,
     FoundComponent,
-    CreateFoundComponent,
+    CreateThingComponent,
     SearchFoundComponent,
     ThingDetailsComponent
   ],
