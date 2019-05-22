@@ -2,8 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {UserComponent} from './user.component';
 import {AccountComponent} from './account/account.component';
-import {SearchLostComponent} from './search-lost/search-lost.component';
-import {SearchFoundComponent} from './search-found/search-found.component';
+import {SearchThingComponent} from './search-thing/search-thing.component';
 import {LostComponent} from './lost/lost.component';
 import {FoundComponent} from './found/found.component';
 import {CreateThingComponent} from './create-thing/create-thing.component';
@@ -27,14 +26,14 @@ const routes: Routes = [
     path: 'search-lost',
     component: UserComponent,
     children: [
-      { path: '', component: SearchLostComponent }
+      { path: '', component: SearchThingComponent, data : {type : SearchThingComponent.TYPE_LOST} }
     ]
   },
   {
     path: 'search-found',
     component: UserComponent,
     children: [
-      { path: '', component: SearchFoundComponent }
+      { path: '', component: SearchThingComponent, data : {type : SearchThingComponent.TYPE_FOUNT} }
     ]
   },
   {

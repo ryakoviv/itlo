@@ -1,4 +1,4 @@
-<app-content-header header="Search lost" [navItems]="navItems"></app-content-header>
+<app-content-header [header]="getHeader()" [navItems]="getNavItems()"></app-content-header>
 <mat-divider></mat-divider>
 <mat-form-field appearance="legacy">
   <input #name [value]="thingName" placeholder="Name" matInput>

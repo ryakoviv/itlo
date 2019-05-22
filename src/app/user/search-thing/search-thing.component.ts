@@ -1,25 +1,25 @@
-import {Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {ThingsService} from '../../core/services/things.service';
-import {Thing} from '../../core/interfaces/thing.interface';
-import {AgmCircle, AgmMap} from '@agm/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LatLngLiteral} from '@agm/core/services/google-maps-types';
+import {AgmCircle, AgmMap} from '@agm/core';
+import {Thing} from '../../core/interfaces/thing.interface';
+import {ThingsService} from '../../core/services/things.service';
 import {DataFilterParam} from '../../core/classes/data-filter-param.class';
-import {ActivatedRoute, Router} from '@angular/router';
-import {first} from 'rxjs/operators';
+import {Router, ActivatedRoute} from '@angular/router';
+import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-search-lost',
-  templateUrl: './search-lost.component.html',
-  styleUrls: ['./search-lost.component.scss']
+  selector: 'app-search-thing',
+  templateUrl: './search-thing.component.html',
+  styleUrls: ['./search-thing.component.scss']
 })
-export class SearchLostComponent implements OnInit {
+export class SearchThingComponent implements OnInit {
+  static TYPE_LOST = 'lost';
+  static TYPE_FOUNT = 'found';
+  type: string;
+
   @ViewChild(AgmMap) map: AgmMap;
   @ViewChild(AgmCircle) mapCircle: AgmCircle;
   @ViewChild('name') name: ElementRef;
-  navItems = [
-    {link: '/user/found-create', text: 'Create found'},
-    {link: '/user/lost-create', text: 'Create lost'},
-  ];
 
   thingName: string;
   lat: number;
@@ -33,11 +33,38 @@ export class SearchLostComponent implements OnInit {
   constructor(private thingsService: ThingsService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.activatedRoute
+      .data
+      .subscribe(data => this.type = data.type);
     this.initDataFromQueryParams();
     this.location_center_lat = this.lat;
     this.location_center_lng = this.lng;
     this.location_radius = this.radius;
     this.search();
+  }
+
+  getNavItems() {
+    switch (this.type) {
+      case SearchThingComponent.TYPE_FOUNT:
+        return [
+          {link: '/user/lost-create', text: 'Create lost'},
+          {link: '/user/found-create', text: 'Create found'}
+        ];
+      case SearchThingComponent.TYPE_LOST:
+        return [
+          {link: '/user/found-create', text: 'Create found'},
+          {link: '/user/lost-create', text: 'Create lost'}
+        ];
+    }
+  }
+
+  getHeader() {
+    switch (this.type) {
+      case SearchThingComponent.TYPE_FOUNT:
+        return 'Search found';
+      case SearchThingComponent.TYPE_LOST:
+        return 'Search lost';
+    }
   }
 
   private initDataFromQueryParams() {
@@ -66,7 +93,7 @@ export class SearchLostComponent implements OnInit {
     );
   }
 
-  public handleAddressChange(address) {
+  handleAddressChange(address) {
     if (address.geometry) {
       this.lat = address.geometry.location.lat();
       this.lng = address.geometry.location.lng();
@@ -83,8 +110,17 @@ export class SearchLostComponent implements OnInit {
     this.location_radius = radius;
   }
 
+  getSearchMethodName() {
+    switch (this.type) {
+      case SearchThingComponent.TYPE_FOUNT:
+        return 'getAllFound';
+      case SearchThingComponent.TYPE_LOST:
+        return 'getAllLost';
+    }
+  }
+
   search() {
-    this.thingsService.getAllLost(
+    this.thingsService[this.getSearchMethodName()](
       1,
       20,
       '',
@@ -99,5 +135,4 @@ export class SearchLostComponent implements OnInit {
 
     this.saveDataInQueryParams();
   }
-
 }

@@ -5,22 +5,20 @@ import { UserComponent } from './user.component';
 import { AccountComponent } from './account/account.component';
 import {UserRoutingModule} from './user-routing.module';
 import {SharedModule} from './shared/shared.module';
-import { SearchLostComponent } from './search-lost/search-lost.component';
 import { LostComponent } from './lost/lost.component';
 import { FoundComponent } from './found/found.component';
 import { CreateThingComponent } from './create-thing/create-thing.component';
-import { SearchFoundComponent } from './search-found/search-found.component';
+import { SearchThingComponent } from './search-thing/search-thing.component';
 import { ThingDetailsComponent } from './thing-details/thing-details.component';
 
 @NgModule({
   declarations: [
     UserComponent,
     AccountComponent,
-    SearchLostComponent,
     LostComponent,
     FoundComponent,
     CreateThingComponent,
-    SearchFoundComponent,
+    SearchThingComponent,
     ThingDetailsComponent
   ],
   imports: [
