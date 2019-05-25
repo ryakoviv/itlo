@@ -14,10 +14,22 @@ export class ThingDetailsComponent implements OnInit {
   private sub: any;
   constructor(private route: ActivatedRoute, private thingsService: ThingsService) { }
 
-  getNavItems() {
-    return [
-      {link: ['/user/thing-edit', this.id], text: 'Edit'},
-    ];
+  getNavItems(): any[] {
+    if (!this.thing) {
+      return [];
+    }
+    if (this.thing.userIsOwner) {
+      return [
+        {link: ['/user/thing-edit', this.id], text: 'Edit'},
+        {link: ['/user/lost-create'], text: 'Create lost'},
+        {link: ['/user/found-create'], text: 'Create found'}
+      ];
+    } else {
+      return [
+        {link: ['/user/lost-create'], text: 'Create lost'},
+        {link: ['/user/found-create'], text: 'Create found'}
+      ];
+    }
   }
 
   ngOnInit() {

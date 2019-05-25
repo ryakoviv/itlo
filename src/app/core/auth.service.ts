@@ -2,49 +2,57 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from './user.interface';
 import { share } from 'rxjs/operators';
+import {CookieService} from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
+import { publishReplay, refCount } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  readonly STORAGE_ITEM = 'user';
+  readonly COOKIE_NAME_AUTH = 'auth';
 
-  curUser: User = null;
+  protected curUser: Observable<User>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookieService: CookieService) {
 
   }
 
   getAuth(): string {
-    const user = this.getCurUser();
-    if (user) {
-      return 'Basic ' + user.auth;
+    const auth = this.cookieService.get(this.COOKIE_NAME_AUTH);
+    if (auth) {
+      return 'Basic ' + auth;
     }
     return null;
   }
 
-  getCurUser(): User {
-    if (!this.curUser) {
-      const user = this.getUserDataFromStorage();
-      if (user) {
-        return this.setCurUser(user, true);
-      }
-      return null;
+  setCurUser(auth: string, rememberMe: boolean) {
+    if (rememberMe) {
+      this.cookieService.set( this.COOKIE_NAME_AUTH, auth, 14 );
+    } else {
+      this.cookieService.set( this.COOKIE_NAME_AUTH, auth );
     }
-    return this.curUser;
   }
 
-  setCurUser(user: User, rememberMe: boolean) {
-    this.curUser = user;
-    if (rememberMe) {
-      this.saveUserDataInStorage(user);
+  getCurUser(): Observable<User> {
+    if (!this.curUser) {
+      this.curUser = this.http.get<User>(
+        '/v1/user/me',
+        {
+          headers: new HttpHeaders(
+            {'http_authorization': this.getAuth()}
+          ),
+        }).pipe(
+          publishReplay(1), // this tells Rx to cache the latest emitted
+          refCount() // and this tells Rx to keep the Observable alive as long as there are any Subscribers
+        );
     }
     return this.curUser;
   }
 
   isLogged(): boolean {
-    return !!this.getCurUser();
+    return !!this.getAuth();
   }
 
   login(email: string, password: string) {
@@ -54,29 +62,21 @@ export class AuthService {
     // const headers = new HttpHeaders(
     //   {'Content-Type': 'application/x-www-form-urlencoded'}
     // );
-    const observer = this.http.post<User>('/v1/user/login', {email, password}).pipe(share());
+    const observer = this.http.post<string>('/v1/user/login', {email, password}).pipe(share());
     observer.subscribe(data => this.setCurUser(data, true));
     return observer;
     // {headers: {}}
+  }
+
+  logout() {
+      this.curUser = null;
+      this.cookieService.delete(this.COOKIE_NAME_AUTH, '/');
   }
 
   create(username: string, email: string, password: string) {
-
-    const observer = this.http.post<User>('/v1/user', {username, email, password}).pipe(share());
+    const observer = this.http.post<string>('/v1/user', {username, email, password}).pipe(share());
     observer.subscribe(data => this.setCurUser(data, true));
     return observer;
     // {headers: {}}
-  }
-
-  protected saveUserDataInStorage(user: User) {
-    localStorage.setItem(this.STORAGE_ITEM, JSON.stringify(user));
-  }
-
-  protected getUserDataFromStorage(): User {
-    const user = localStorage.getItem(this.STORAGE_ITEM);
-    if (user) {
-      return <User>JSON.parse(user);
-    }
-    return null;
   }
 }

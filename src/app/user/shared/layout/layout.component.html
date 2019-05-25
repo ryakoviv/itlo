@@ -2,12 +2,22 @@
   <mat-toolbar color="primary" class="mat-elevation-z6 nav-toolbar">
     <button mat-icon-button (click)="lefSide.toggle()"><mat-icon>menu</mat-icon></button>
     <h1 class="logo">Lostit</h1>
-    <a routerLink="/user/search-lost" mat-button>Search lost</a>
-    <a routerLink="/user/search-found" mat-button>Search found</a>
-    <a routerLink="/user/lost" mat-button>My lost staff</a>
-    <a routerLink="/user/found" mat-button>My found staff</a>
+    <button mat-button [matMenuTriggerFor]="searchMenu">Search</button>
+    <mat-menu #searchMenu="matMenu">
+      <a routerLink="/user/search-lost" mat-menu-item>I found</a>
+      <a routerLink="/user/search-found" mat-menu-item>I lost</a>
+    </mat-menu>
+    <a routerLink="/user/lost" mat-button>My lost items</a>
+    <a routerLink="/user/found" mat-button>My found items</a>
     <span class="toolbar-spacer"></span>
-    <button mat-button><mat-icon>account_circle</mat-icon> User</button>
+    <button mat-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+      {{user?.username}}
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <a routerLink="/user/account" mat-menu-item>Profile</a>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
   </mat-toolbar>
 
   <mat-sidenav-container class="main-sidenav-container">

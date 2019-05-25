@@ -1,4 +1,4 @@
-<app-content-header header="My found thing"></app-content-header>
+<app-content-header header="My found thing" [navItems]="getNavItems()"></app-content-header>
 <mat-divider></mat-divider>
 <div *ngFor="let thing of things">
   <app-thing [thing]="thing"></app-thing>

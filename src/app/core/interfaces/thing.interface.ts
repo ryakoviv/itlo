@@ -15,4 +15,5 @@ export interface Thing {
   created_at: number;
   updated_at: number;
   supporters_num: number;
+  userIsOwner: boolean;
 }

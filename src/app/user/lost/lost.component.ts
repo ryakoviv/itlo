@@ -17,4 +17,11 @@ export class LostComponent implements OnInit {
     test.subscribe(res => this.things = res);
   }
 
+  getNavItems(): any[] {
+    return [
+      {link: ['/user/lost-create'], text: 'Create lost'},
+      {link: ['/user/found-create'], text: 'Create found'}
+    ];
+  }
+
 }

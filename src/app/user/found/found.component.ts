@@ -17,4 +17,11 @@ export class FoundComponent implements OnInit {
     test.subscribe(res => this.things = res);
   }
 
+  getNavItems(): any[] {
+      return [
+        {link: ['/user/found-create'], text: 'Create found'},
+        {link: ['/user/lost-create'], text: 'Create lost'}
+      ];
+  }
+
 }

@@ -7,6 +7,7 @@ import {RetainScrollPolyfillModule} from './shared/retain-scroll-polyfill/retain
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
       pollCadence: 50
     }),
   ],
-  providers: [],
+  providers: [ CookieService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
