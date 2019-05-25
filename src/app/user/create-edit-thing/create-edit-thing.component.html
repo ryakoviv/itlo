@@ -3,7 +3,7 @@
 <form (submit)="submit($event)">
   <div class="top-block">
     <div class="left-block">
-      <app-image-holder [imageFormControl]="imageFile"></app-image-holder>
+      <app-image-holder [imageSrc]="imagePlaceholderSrc" [imageFormControl]="imageFile"></app-image-holder>
     </div>
     <div class="right-block">
       <mat-form-field appearance="legacy">

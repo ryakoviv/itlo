@@ -1,7 +1,7 @@
 <mat-toolbar>
   <span>{{header}}</span>
   <span class="toolbar-spacer"></span>
-  <a mat-stroked-button color="secondary" *ngIf="navItems[0]" routerLink="{{navItems[0].link}}">{{navItems[0].text}}</a>
+  <a mat-stroked-button color="secondary" *ngIf="navItems[0]" [routerLink]="navItems[0].link">{{navItems[0].text}}</a>
   <button *ngIf="navItems[1]" mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>more_vert</mat-icon>
   </button>

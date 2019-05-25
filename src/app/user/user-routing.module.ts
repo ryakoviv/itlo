@@ -5,7 +5,7 @@ import {AccountComponent} from './account/account.component';
 import {SearchThingComponent} from './search-thing/search-thing.component';
 import {LostComponent} from './lost/lost.component';
 import {FoundComponent} from './found/found.component';
-import {CreateThingComponent} from './create-thing/create-thing.component';
+import {CreateEditThingComponent} from './create-edit-thing/create-edit-thing.component';
 import {ThingDetailsComponent} from './thing-details/thing-details.component';
 
 
@@ -54,14 +54,21 @@ const routes: Routes = [
     path: 'found-create',
     component: UserComponent,
     children: [
-      { path: '', component: CreateThingComponent, data : {type : CreateThingComponent.TYPE_FOUNT}}
+      { path: '', component: CreateEditThingComponent, data : {type : CreateEditThingComponent.TYPE_CREATE_FOUNT}}
     ]
   },
   {
     path: 'lost-create',
     component: UserComponent,
     children: [
-      { path: '', component: CreateThingComponent, data : {type : CreateThingComponent.TYPE_LOST}}
+      { path: '', component: CreateEditThingComponent, data : {type : CreateEditThingComponent.TYPE_CREATE_LOST}}
+    ]
+  },
+  {
+    path: 'thing-edit/:id',
+    component: UserComponent,
+    children: [
+      { path: '', component: CreateEditThingComponent, data : {type : CreateEditThingComponent.TYPE_EDIT}}
     ]
   },
   {

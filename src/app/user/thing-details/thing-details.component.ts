@@ -14,6 +14,12 @@ export class ThingDetailsComponent implements OnInit {
   private sub: any;
   constructor(private route: ActivatedRoute, private thingsService: ThingsService) { }
 
+  getNavItems() {
+    return [
+      {link: ['/user/thing-edit', this.id], text: 'Edit'},
+    ];
+  }
+
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number

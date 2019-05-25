@@ -4,18 +4,21 @@ import {AgmCircle, AgmMap} from '@agm/core';
 import {ThingsService} from '../../core/services/things.service';
 import {LatLngLiteral} from '@agm/core/services/google-maps-types';
 import {Router, ActivatedRoute} from '@angular/router';
+import {Thing} from '../../core/interfaces/thing.interface';
 
 @Component({
-  selector: 'app-create-thing',
-  templateUrl: './create-thing.component.html',
-  styleUrls: ['./create-thing.component.scss']
+  selector: 'app-create-edit-thing',
+  templateUrl: './create-edit-thing.component.html',
+  styleUrls: ['./create-edit-thing.component.scss']
 })
-export class CreateThingComponent implements OnInit {
-  static TYPE_LOST = 'lost';
-  static TYPE_FOUNT = 'found';
+export class CreateEditThingComponent implements OnInit {
+  static TYPE_CREATE_LOST = 'create_lost';
+  static TYPE_CREATE_FOUNT = 'create_found';
+  static TYPE_EDIT = 'edit';
   type: string;
   @ViewChild(AgmMap) map: AgmMap;
   @ViewChild(AgmCircle) mapCircle: AgmCircle;
+  imagePlaceholderSrc: string;
   lat: number = 51.678418;
   lng: number = 7.809007;
   radius: number = 10000;
@@ -44,6 +47,9 @@ export class CreateThingComponent implements OnInit {
   });
   maxDate = new Date();
 
+  editThing: Thing;
+  editThingId: number;
+
   get name() { return this.form.get('name'); }
   get description() { return this.form.get('description'); }
   get happened_at() { return this.form.get('happened_at'); }
@@ -58,15 +64,44 @@ export class CreateThingComponent implements OnInit {
   ngOnInit() {
     this.route
       .data
-      .subscribe(data => this.type = data.type);
+      .subscribe(data => {
+        this.type = data.type;
+        if (this.type === CreateEditThingComponent.TYPE_EDIT) {
+          this.route.params.subscribe(params => {
+            this.editThingId = +params['id'];
+            const sub = this.thingsService.getThing(this.editThingId);
+            sub.subscribe(thing => {
+              this.editThing = thing;
+              this.fillFormWithThingData();
+            });
+          });
+        }
+      });
+  }
+
+  protected fillFormWithThingData() {
+    if (this.editThing.image) {
+      this.imagePlaceholderSrc = this.editThing.image.src;
+    }
+    this.form.get('name').setValue(this.editThing.name);
+    this.form.get('description').setValue(this.editThing.description);
+    this.form.get('happened_at').setValue(new Date(this.editThing.happened_at * 1000));
+    this.form.get('location_text').setValue(this.editThing.location_text);
+    this.lat = this.editThing.location_center_lat;
+    this.lng = this.editThing.location_center_lng;
+    this.radius = this.editThing.location_radius;
   }
 
   getPageHeader() {
     switch (this.type) {
-      case CreateThingComponent.TYPE_FOUNT:
+      case CreateEditThingComponent.TYPE_CREATE_LOST:
         return 'Register found thing';
-      case CreateThingComponent.TYPE_LOST:
+      case CreateEditThingComponent.TYPE_CREATE_FOUNT:
         return 'Register lost thing';
+      case CreateEditThingComponent.TYPE_EDIT:
+        if (this.editThing) {
+          return 'Edit ' + this.editThing.name;
+        }
     }
   }
 
@@ -88,10 +123,12 @@ export class CreateThingComponent implements OnInit {
 
   getCreateMethodName() {
     switch (this.type) {
-      case CreateThingComponent.TYPE_FOUNT:
+      case CreateEditThingComponent.TYPE_CREATE_FOUNT:
         return 'createFound';
-      case CreateThingComponent.TYPE_LOST:
+      case CreateEditThingComponent.TYPE_CREATE_LOST:
         return 'createLost';
+      case CreateEditThingComponent.TYPE_EDIT:
+        return 'updateThing';
     }
   }
 
@@ -126,6 +163,7 @@ export class CreateThingComponent implements OnInit {
         this.location_center_lng.value,
         this.location_radius.value,
         this.imageFile.value,
+        this.editThingId
       ).subscribe(data => {
         this.router.navigate(['user/thing-details', data.id]);
       }, error => {

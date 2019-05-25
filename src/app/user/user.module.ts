@@ -7,7 +7,7 @@ import {UserRoutingModule} from './user-routing.module';
 import {SharedModule} from './shared/shared.module';
 import { LostComponent } from './lost/lost.component';
 import { FoundComponent } from './found/found.component';
-import { CreateThingComponent } from './create-thing/create-thing.component';
+import { CreateEditThingComponent } from './create-edit-thing/create-edit-thing.component';
 import { SearchThingComponent } from './search-thing/search-thing.component';
 import { ThingDetailsComponent } from './thing-details/thing-details.component';
 
@@ -17,7 +17,7 @@ import { ThingDetailsComponent } from './thing-details/thing-details.component';
     AccountComponent,
     LostComponent,
     FoundComponent,
-    CreateThingComponent,
+    CreateEditThingComponent,
     SearchThingComponent,
     ThingDetailsComponent
   ],

@@ -134,4 +134,29 @@ export class ThingsService extends DataService {
       }
     );
   }
+
+  updateThing(name, description, happened_at, location_text, location_center_lat, location_center_lng, location_radius, imageFile = null, id) {
+    const fd = new FormData();
+    fd.append('name', name);
+    fd.append('description', description);
+    fd.append('happened_at', happened_at);
+    fd.append('location_text', location_text);
+    fd.append('location_center_lat', location_center_lat);
+    fd.append('location_center_lng', location_center_lng);
+    fd.append('location_radius', location_radius);
+    if (imageFile) {
+      fd.append('imageFile', imageFile, imageFile.name);
+    }
+    return this.http.put<any>(
+      '/v1/thing/' + id,
+      fd,
+      {
+        headers: new HttpHeaders(
+          {
+            'http_authorization': this.auth.getAuth(),
+          }
+        ),
+      }
+    );
+  }
 }
